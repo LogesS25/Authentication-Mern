@@ -1,3 +1,6 @@
+# Host Link
+http://13.60.82.13/api/test
+
 ## Mern Authentication
 
 1. User creation with Email/Password
