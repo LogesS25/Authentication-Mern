@@ -1,3 +1,5 @@
+# Please check the latest word doc from github for all screenshots
+
 # Host Link
 http://13.60.82.13/api/test
 
@@ -8,6 +10,7 @@ http://13.60.82.13/api/test
 3. Get Protected resource usig Jsonwebtoken
 4. Send Reset Password access code to email
 5. Reset Password using access code
+
 
 # MongoDB Schema Screenshot
 <img width="667" alt="image" src="https://github.com/LogesS25/Authentication-Mern/assets/122730945/27175fd3-70e0-4b0c-825a-0a82dce28cfc">
