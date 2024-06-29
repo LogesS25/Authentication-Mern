@@ -4,6 +4,8 @@ const bcrypt = require("bcryptjs");
 const generateToken = require('../utils');
 const verifyToken = require('../middleware');
 const nodemailer = require('nodemailer');
+require('dotenv').config();
+
 
 
 const router = express.Router();
@@ -12,19 +14,51 @@ const router = express.Router();
 router.get('/test', (req, res) => res.json({ message: 'LogesS Api Testing successful' }));
 
 router.post("/user", async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password ,dateofbirth,work,age,location} = req.body;
 
     const user = await User.findOne({ email });
 
     if (!user) {
-        const hashedPassword = await bcrypt(password, 10);
-        const newUser = new User({ email, password: hashedPassword });
+        const hashedPassword = await bcrypt.hash(password,10);
+        const newUser = new User({ email, password: hashedPassword,dateofbirth,work,age,location });
 
         await newUser.save();
         return res.status(201).json({ message: "User created" });
     }
     res.status(404).json({ message: 'User Already Exists' });
 })
+
+router.post('/all-users', async (req, res) => {
+    try {
+        const users = await User.find();
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error });
+    }
+});
+
+router.post('/update-user/:id', async (req, res) => {
+    const userId = req.params.id;
+    const updates = req.body;
+
+    // Removing fields that should not be updated
+    delete updates.email;
+    delete updates.password;
+
+    try {
+        const user = await User.findByIdAndUpdate(userId, updates, { new: true });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({ message: 'User updated successfully', user });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error });
+    }
+});
+
+
 
 router.post('/authenticate', async (req, res) => {
     const { email, password } = req.body;
@@ -70,7 +104,7 @@ router.post("/reset-password", async (req, res) => {
         service: "gmail",
         auth: {
             user: "sivalog25@gmail.com",
-            pass: "laiindimxezvtdth",
+            pass: process.env.NODEMAILER_PASSWORD,
         }
     })
 

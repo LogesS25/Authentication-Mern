@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken')
 const User = require('../model');
+require('dotenv').config();
+
 
 const verifyToken = (req,res,next) => {
     const authHeader = req.headers.authorization;
@@ -10,7 +12,7 @@ const verifyToken = (req,res,next) => {
 
     const token = authHeader.split(" ")[1];
 
-    jwt.verify(token,'loges', async (err,decode) =>{
+    jwt.verify(token,process.env.TOKEN, async (err,decode) =>{
         if(err){
             return res.status(403).json({message:"invalid token"});
         }
