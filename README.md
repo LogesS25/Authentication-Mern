@@ -1,7 +1,7 @@
 # Please check the latest word doc from github for all screenshots
 
 # Host Link
-Hosted on AWS EC2 Machine
+Hosted on AWS EC2 Machine :
 http://13.60.82.13/api/test
 
 ## Mern Authentication
